@@ -1,0 +1,46 @@
+h1{
+    color: #000;
+    font-size: 45px;
+    letter-spacing: 1.3px;
+    line-height: 50px;
+    margin:0;
+    margin-bottom: 10px ;
+}
+body{
+    margin:0px;
+    font-family: 'Nunito', sans-serif;
+}
+header{
+
+    background-color: #2E94CC;
+    color: #FFF;
+    /*font-family: 'Nunito';*/
+    font-size: 24px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    text-align: center;
+    letter-spacing: 0.6px;
+    line-height: 30px;
+}
+footer{
+    margin: auto;
+    max-width: 680px;
+    background-color: whitesmoke;
+    padding: 20 px 15 px;
+    margin-bottom: 70px;
+
+}
+.uppercase{
+    text-transform: uppercase;
+}
+#content-section{
+    max-width: 680px;
+    margin: auto;
+}
+.pictures img{
+    max-width: 100%;
+}
+.pictures{
+    margin: 50px 0;
+
+}

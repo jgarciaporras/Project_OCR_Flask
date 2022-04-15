@@ -1,0 +1,61 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> GBC Project </title>
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+    </head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/main.css') }}">
+    <body>
+        <header class="uppercase">Medical Reports OCR</header>
+        <section id="content-section">
+            <h2>Select a file to upload</h2>
+            <p>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul>
+                            {% for message in messages %}
+                            <li>{{ message }}</li>
+                            <form method="post" action="/prediction">  
+                                <div>
+                                    <input type="submit" value="Convert_CSV" name="convert_csv"  class="btn-model">
+                                </div>
+                            </form>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    
+                {% endwith %}
+
+                
+            </p>
+            <section class="pictures">
+                {% if filename %}
+                    <div>
+                        <img src="{{ url_for('display_image', filename=filename) }}">
+                    </div>
+                {% endif %}
+            </section>
+            <form method="post" action="/" enctype="multipart/form-data">  
+                <dl>
+                    <p>
+                        <input type="file" name="file" class="form-control" autocomplete="off" required>
+                    </p>
+                </dl>
+                <p>
+                    <input type="submit" value="Submit" class="btn-model">
+                </p>
+     
+            </form>
+            
+        </section>
+        
+
+        
+
+    </body>
+
+
+
+</html>
