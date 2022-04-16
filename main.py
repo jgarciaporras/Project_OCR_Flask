@@ -1,5 +1,5 @@
 #app.py
-from asyncio import subprocess
+import subprocess
 from charset_normalizer import detect
 from flask import Flask, flash, request, redirect, url_for, render_template
 import urllib.request
@@ -47,6 +47,8 @@ def upload_image():
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         #print('upload_image filename: ' + filename)
         flash('Image successfully uploaded and displayed below')
+        #subprocess.run("ls")
+        subprocess.run(['python', 'detect.py', '--source', os.path.join(app.config['UPLOAD_FOLDER'], filename),'--weight','best.pt','--img','416','--save-txt','--save-conf'])
         return render_template('index.html', filename=filename)
     else:
         flash('Allowed image types are - png, jpg, jpeg, gif')
@@ -59,15 +61,17 @@ def display_image(filename):
 
 
 @app.route('/prediction', methods=['POST'])
-def predict():
+def predict(filename):
     if request.method=="POST":
         return
-    file = request.files['file']
-    filename = secure_filename(file.filename)
-    subprocess.run("ls")
-    subprocess.run(['python3', 'detect.py', '--source', os.path.join('uploads',filename),'--weight','best.pt','--img','416','--save','-txt','--save','-conf'])
-    obj = secure_filename(file.filename)
-    return  obj
+    file = redirect(url_for('static', filename='uploads/' + filename), code=301)
+    return file
+    #filename = secure_filename(file.filename)
+    #subprocess.run("ls")
+    #subprocess.run(['python3', 'detect.py', '--source', os.path.join('uploads',filename),'--weight','best.pt','--img','416','--save','-txt','--save','-conf'])
+    #obj = secure_filename(file.filename)
+    #return  obj
+    #return render_template('index.html')
  
 if __name__ == "__main__":
     app.run()
