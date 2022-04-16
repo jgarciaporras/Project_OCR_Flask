@@ -235,7 +235,32 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
                         #     save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
 
             #Splitting elements of A
-            
+            print(A)
+            B =[]
+            N = len(A)
+            for i in range(N):
+                a = A[i].split('\n')
+                a = [x for x in a if x]
+                a = [x for x in a if x != ' ']
+                print(a)
+                B.append(a)     
+
+            Data = dict(zip(K,B))
+
+            #Creating a Dataframe
+            Y = pd.DataFrame(dict([ (k,pd.Series(v)) for k,v in Data.items() ]))
+
+            # Y.columns = K
+
+            print(Y)
+
+            K = [" ".join(x.split(' ')[0: -1]) for x in K]
+
+            print(K)
+            # Y = Y[['Test Name', 'Unit', 'Reference Value', 'Value']]
+    
+            #Exporting to CSV 
+            Y.to_csv (r'out_csv/cust_ocr5.csv', index = False, header=K)
 
             # Stream results
             im0 = annotator.result()
