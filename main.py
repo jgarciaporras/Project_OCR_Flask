@@ -1,14 +1,16 @@
 #app.py
 import subprocess
+from urllib import response
 from charset_normalizer import detect
-from flask import Flask, flash, request, redirect, url_for, render_template, send_file
+from flask import Flask, flash, request, redirect, url_for, render_template, send_file,make_response , Response 
 import urllib.request
 import os
+from pandas import read_csv
 #import sys
 from surprise import Prediction
 from werkzeug.utils import secure_filename
 from utils.general import methods
-
+import csv
 
  
 #TEMPLATE_DIR = os.path.abspath('../templates')
@@ -46,7 +48,7 @@ def upload_image():
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         #print('upload_image filename: ' + filename)
-        flash('Image successfully uploaded and displayed below')
+        flash('Image successfully uploaded and displayed prediction below')
         #subprocess.run("ls")
         subprocess.run(['python', 'detect.py', '--source', os.path.join(app.config['UPLOAD_FOLDER'], filename),'--weight','best.pt','--img','416','--save-txt','--save-conf'])
         
@@ -72,18 +74,19 @@ def display_image(filename):
     return redirect(url_for('static', filename='runs/detect/exp/' + filename), code=301)
 
 
-#@app.route('/prediction', methods=['POST'])
-##def predict(filename):
- #   if request.method=="POST":
-#        return
-##    file = redirect(url_for('static', filename='uploads/' + filename), code=301)
- #   return file
-    #filename = secure_filename(file.filename)
-    #subprocess.run("ls")
-    #subprocess.run(['python3', 'detect.py', '--source', os.path.join('uploads',filename),'--weight','best.pt','--img','416','--save','-txt','--save','-conf'])
-    #obj = secure_filename(file.filename)
-    #return  obj
-    #return render_template('index.html')
+@app.route('/csv')
+def download_csv():
+    with open("out_csv/cust_ocr5.csv") as fp:
+        csv_file = fp.read()
+    return Response(
+        csv_file,
+        mimetype="text/csv",
+        headers={"Content-disposition":
+                 "attachment; filename=myfile.csv"})
+    #
+    #response.headers['Content-Disposition'] = cd 
+    #response.mimetype='text/csv'
+    #return response
  
 if __name__ == "__main__":
     app.run()

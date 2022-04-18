@@ -17,11 +17,7 @@
                         <ul>
                             {% for message in messages %}
                             <li>{{ message }}</li>
-                            <form method="post">  
-                                <div>
-                                    <input type="submit" value="Convert_CSV" name="convert_csv"  class="btn-model">
-                                </div>
-                            </form>
+                            <a href="/csv"> Download CSV</a>
                             {% endfor %}
                         </ul>
                     {% endif %}
