@@ -1,7 +1,7 @@
 #app.py
 import subprocess
 from charset_normalizer import detect
-from flask import Flask, flash, request, redirect, url_for, render_template
+from flask import Flask, flash, request, redirect, url_for, render_template, send_file
 import urllib.request
 import os
 #import sys
@@ -49,23 +49,35 @@ def upload_image():
         flash('Image successfully uploaded and displayed below')
         #subprocess.run("ls")
         subprocess.run(['python', 'detect.py', '--source', os.path.join(app.config['UPLOAD_FOLDER'], filename),'--weight','best.pt','--img','416','--save-txt','--save-conf'])
+        
+
         return render_template('index.html', filename=filename)
     else:
         flash('Allowed image types are - png, jpg, jpeg, gif')
         return redirect(request.url)
  
-@app.route('/display/<filename>')
+@app.route('/display/<filename>', methods=['GET'])
 def display_image(filename):
     #print('display_image filename: ' + filename)
-    return redirect(url_for('static', filename='uploads/' + filename), code=301)
+    #obj = request.args.get('obj')
+        #rint(obj)
+    #loc = os.path.join("runs/detect/exp", obj) 
+    #print(loc)
+    #try:
+    #    return render_template('index.html', filename=send_file(os.path.join("runs/detect/exp", obj)))
+    #except Exception as e:
+    #   return str(e)
 
 
-@app.route('/prediction', methods=['POST'])
-def predict(filename):
-    if request.method=="POST":
-        return
-    file = redirect(url_for('static', filename='uploads/' + filename), code=301)
-    return file
+    return redirect(url_for('static', filename='runs/detect/exp/' + filename), code=301)
+
+
+#@app.route('/prediction', methods=['POST'])
+##def predict(filename):
+ #   if request.method=="POST":
+#        return
+##    file = redirect(url_for('static', filename='uploads/' + filename), code=301)
+ #   return file
     #filename = secure_filename(file.filename)
     #subprocess.run("ls")
     #subprocess.run(['python3', 'detect.py', '--source', os.path.join('uploads',filename),'--weight','best.pt','--img','416','--save','-txt','--save','-conf'])

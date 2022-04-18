@@ -76,7 +76,7 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
         augment=False,  # augmented inference
         visualize=False,  # visualize features
         update=False,  # update all models
-        project=ROOT / 'runs/detect',  # save results to project/name
+        project= 'static/runs/detect',  # save results to project/name
         name='exp',  # save results to project/name
         exist_ok=False,  # existing project/name ok, do not increment
         line_thickness=3,  # bounding box thickness (pixels)
@@ -184,9 +184,9 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
                         annotator.box_label(xyxy, label, color=colors(c, True))
                         #img_crop = im0[xywh[1]: xywh[1]+xywh[3], xywh[0]: xywh[0]+xywh[2]]
                         img_crop = im0[int(xywh[1]): int(xywh[1]+xywh[3]), int(xywh[0]): int(xywh[0]+xywh[2])]
-                        cv2.imshow(str(p), im0)
-                        cv2.waitKey(0)
-                        cv2.destroyAllWindows()   
+                        #cv2.imshow(str(p), im0)
+                        #cv2.waitKey(0)
+                        #cv2.destroyAllWindows()   
 
                         save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)         
                         img_path = save_dir / 'crops' / names[c] / f'{p.stem}.jpg'
@@ -320,7 +320,7 @@ def parse_opt():
     parser.add_argument('--augment', action='store_true', help='augmented inference')
     parser.add_argument('--visualize', action='store_true', help='visualize features')
     parser.add_argument('--update', action='store_true', help='update all models')
-    parser.add_argument('--project', default=ROOT / 'runs/detect', help='save results to project/name')
+    parser.add_argument('--project', default='static/runs/detect', help='save results to project/name')
     parser.add_argument('--name', default='exp', help='save results to project/name')
     parser.add_argument('--exist-ok', action='store_true', help='existing project/name ok, do not increment')
     parser.add_argument('--line-thickness', default=3, type=int, help='bounding box thickness (pixels)')
