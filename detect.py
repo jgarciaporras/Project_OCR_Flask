@@ -94,7 +94,8 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
         source = check_file(source)  # download
 
     # Directories
-    save_dir = increment_path(Path(project) / name, exist_ok=exist_ok)  # increment run
+    save_dir = Path(project) / name # no increment run
+    #save_dir = increment_path(Path(project) / name, exist_ok=exist_ok)  # increment run
     (save_dir / 'labels' if save_txt else save_dir).mkdir(parents=True, exist_ok=True)  # make dir
 
     # Load model
@@ -225,7 +226,7 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
                         #saving the roi regions
                         cv2.imwrite("Crop/roi__" + str(i) + ".jpg",roi)
                         #passing to tesseract
-                        c = py.image_to_string(roi, config = '--oem 3')
+                        c = py.image_to_string(roi, config = '--psm 6 --oem 3')
                         A.append(c) 
                         K.append(label)
 
